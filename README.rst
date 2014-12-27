@@ -47,3 +47,7 @@ Just be patient and it will eventually return.
 2. Click the "Continue to application overview page" after the application
    has been deployed.
 3. Click on the name of your application to open it
+
+Note that when deploying to OpenShift, the 'scaling' option should NOT be
+selected as the data directory used to hold any repositories is not shared
+across gears if they happen to be deployed to different hosts.

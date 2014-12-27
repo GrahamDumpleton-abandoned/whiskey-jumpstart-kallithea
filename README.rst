@@ -28,7 +28,7 @@ of the ``grahamdumpleton/mod-wsgi-docker:python-2.7-onbuild`` image.
 Note that with the way that Fig is being configured to host the
 application, a fresh database and directory for respositories will be
 created each time it is started. In order to have persistence across
-runs then further work would be required in create data only containers
+runs then further work would be required to create data only containers
 for the database and repositories and mount them against the containers
 when started.
 

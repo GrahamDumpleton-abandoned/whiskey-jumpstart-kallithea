@@ -22,6 +22,13 @@ of the ``grahamdumpleton/mod-wsgi-docker:python-2.7-onbuild`` image.
 3. Run ``fig up``.
 4. Open a web browser on port 8000 of the Docker host.
 
+Note that with the way that Fig is being configured to host the
+application, a fresh database and directory for respositories will be
+created each time it is started. In order to have persistence across
+runs then further work would be required in create data only containers
+for the database and repositories and mount them against the containers
+when started.
+
 OpenShift
 ---------
 

@@ -60,14 +60,16 @@ To deploy manually use the following steps.
 2. Create an OpenShift application using the ``python-2.7`` and
    ``postgresql-9.2`` cartridges::
    
-    rhc app-create whiskeyjumpstartkallithea python-2.7 postgresql-9.2 --no-git
+    rhc app-create kallithea python-2.7 postgresql-9.2 --no-git
 
 3. Add the OpenShift git repository as a remote to the local repository,
-   changing ``xxx`` to be the application ID in the command::
+   using the actual git remote URI given::
    
-    git remote add openshift ssh://xxx@whiskeyjumpstartkallithea-grahamdumpleton.rhcloud.com/~/git/whiskeyjumpstartkallithea.git/
+    git remote add openshift ssh://<app-id>@kallithea-<account-name>.rhcloud.com/~/git/kallithea.git/
 
-4. Force push the local repository up to the OpenShift repository.
+4. Force push the local repository up to the OpenShift repository::
+
+    git push -f openshift master
 
 The deployment will take some time and the web site will not be available
 immediately after the push completes, so be a little bit patient.

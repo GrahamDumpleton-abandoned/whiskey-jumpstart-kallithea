@@ -37,7 +37,7 @@ if [ -f database_setup_required ]
 then
     mkdir $KALLITHEA_HOMEDIR/repos
 
-    paster setup-db production.ini --user="admin" --password="changethis" \
+    paster setup-db production.ini --user="admin" --password="whiskeyrules" \
         --email="admin@test.com" --repos="$KALLITHEA_HOMEDIR/repos" \
         --force-yes
 

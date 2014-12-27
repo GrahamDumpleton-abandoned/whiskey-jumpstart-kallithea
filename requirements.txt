@@ -1,0 +1,3 @@
+kallithea
+psycopg2
+newrelic

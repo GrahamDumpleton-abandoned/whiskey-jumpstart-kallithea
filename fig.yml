@@ -1,0 +1,11 @@
+database:
+  image: postgres:9.4
+web:
+  build: .
+  ports:
+   - "8000:80"
+  links:
+   - database
+  environment:
+   - NEW_RELIC_APP_NAME=Kallithea
+   - NEW_RELIC_LICENSE_KEY=44bc7fd4372bef4a0b1814de4aa862d0647d6109

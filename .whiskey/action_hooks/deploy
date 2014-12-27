@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+if test $WHISKEY_RUNTIME == docker; then
+    KALLITHEA_HOMEDIR=/app/kallithea-runtime
+    KALLITHEA_DATABASE_URI="postgresql://postgres@database/postgres"
+    KALLITHEA_DATABASE_HOST=database
+    KALLITHEA_DATABASE_NAME=postgres
+    KALLITHEA_DATABASE_USERNAME=postgres
+fi
+
+if test $WHISKEY_RUNTIME == openshift; then
+    KALLITHEA_HOMEDIR=$OPENSHIFT_DATA_DIR/kallithea-runtime
+    KALLITHEA_DATABASE_URI=$OPENSHIFT_POSTGRESQL_DB_URL
+    KALLITHEA_DATABASE_HOST=$OPENSHIFT_POSTGRESQL_DB_HOST
+    KALLITHEA_DATABASE_NAME=$OPENSHIFT_APP_NAME
+    KALLITHEA_DATABASE_USERNAME=$OPENSHIFT_POSTGRESQL_DB_USERNAME
+fi
+
+cd $KALLITHEA_HOMEDIR
+
+if test -f production.ini; then
+    sed -i "s%^sqlalchemy\.db1\.url = .*$%sqlalchemy.db1.url = $KALLITHEA_DATABASE_URI%" production.ini
+    cat production.ini
+fi
+
+while true; do
+    if psql -lqt -h $KALLITHEA_DATABASE_HOST -U \
+            $KALLITHEA_DATABASE_USERNAME | cut -d \| -f 1 | \
+            grep -w $KALLITHEA_DATABASE_NAME; then
+        break
+    fi
+    echo "Waiting for database, sleeping 1 second."
+    sleep 1
+done
+
+if [ -f database_setup_required ]
+then
+    mkdir $KALLITHEA_HOMEDIR/repos
+
+    paster setup-db production.ini --user="admin" --password="changethis" \
+        --email="admin@test.com" --repos="$KALLITHEA_HOMEDIR/repos" \
+        --force-yes
+
+    echo ">>>>>>>>>>>>>>>>>>>"
+    echo "user: admin"
+    echo "pass: changethis"
+    echo ">>>>>>>>>>>>>>>>>>>"
+
+    rm database_setup_required
+else
+    paster upgrade-db production.ini --force-yes
+fi
+
+if test $WHISKEY_RUNTIME == docker; then
+    chown -R www-data:www-data $KALLITHEA_HOMEDIR
+fi

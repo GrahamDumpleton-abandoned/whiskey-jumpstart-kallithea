@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+if test $WHISKEY_RUNTIME == docker; then
+    apt-get update
+    apt-get install -y libpq-dev postgresql-client-common \
+        postgresql-client-9.4 git --no-install-recommends
+    rm -r /var/lib/apt/lists/*
+fi

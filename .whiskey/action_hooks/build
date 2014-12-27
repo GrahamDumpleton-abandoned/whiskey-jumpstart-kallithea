@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+if test $WHISKEY_RUNTIME == docker; then
+    KALLITHEA_HOMEDIR=/app/kallithea-runtime
+    mkdir -p $KALLITHEA_HOMEDIR
+fi
+
+if test $WHISKEY_RUNTIME == openshift; then
+    KALLITHEA_HOMEDIR=$OPENSHIFT_DATA_DIR/kallithea-runtime
+    mkdir -p $KALLITHEA_HOMEDIR
+fi
+
+cd $KALLITHEA_HOMEDIR
+
+if ! test -f production.ini; then
+    paster make-config Kallithea production.ini
+
+    touch database_setup_required
+
+    sed -i.bak "s/^debug = true/debug = false/" production.ini
+    sed -i.bak "s/^use_celery = .*$/use_celery = false/" production.ini
+    sed -i.bak "s%^git_path = .*$%git_path = `which git`%" production.ini
+
+    cat production.ini
+fi

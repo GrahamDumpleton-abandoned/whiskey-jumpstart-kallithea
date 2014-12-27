@@ -65,7 +65,7 @@ To deploy manually use the following steps.
 3. Add the OpenShift git repository as a remote to the local repository,
    changing ``xxx`` to be the application ID in the command::
    
-   git remote add openshift ssh://xxx@whiskeyjumpstartkallithea-grahamdumpleton.rhcloud.com/~/git/whiskeyjumpstartkallithea.git/
+    git remote add openshift ssh://xxx@whiskeyjumpstartkallithea-grahamdumpleton.rhcloud.com/~/git/whiskeyjumpstartkallithea.git/
 
 4. Force push the local repository up to the OpenShift repository.
 

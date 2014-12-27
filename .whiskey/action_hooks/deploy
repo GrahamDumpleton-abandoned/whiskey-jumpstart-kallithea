@@ -43,7 +43,7 @@ then
 
     echo ">>>>>>>>>>>>>>>>>>>"
     echo "user: admin"
-    echo "pass: changethis"
+    echo "pass: whiskeyrules"
     echo ">>>>>>>>>>>>>>>>>>>"
 
     rm database_setup_required

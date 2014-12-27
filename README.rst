@@ -6,6 +6,9 @@ This is a Whiskey jumpstart example for Kallithea.
 
 To get it running follow the steps outlined below for each deployment type.
 
+The adminstrator login name is 'admin'. The default password is
+'whiskeyrules'. Ensure you change the password straight away.
+
 Docker
 ------
 
